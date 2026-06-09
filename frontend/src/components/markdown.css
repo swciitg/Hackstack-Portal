@@ -40,10 +40,42 @@
   line-height: 1.75;
 }
 
+.md-list {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
 .md-list-item {
-  margin-left: 1.25rem;
-  list-style: disc;
   line-height: 1.75;
+}
+
+.md-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.75rem 0;
+}
+
+.md-table th,
+.md-table td {
+  border: 1px solid var(--line);
+  padding: 0.75rem 0.9rem;
+}
+
+.md-table th {
+  text-align: left;
+  font-weight: 700;
+  background: var(--surface-subtle);
+}
+
+.md-image {
+  display: block;
+  max-width: 100%;
+  margin: 0.85rem 0;
+  border-radius: var(--radius-sm);
+}
+
+.md-emphasis {
+  font-style: italic;
 }
 
 .md-spacer {
@@ -123,6 +155,11 @@
 
 .md-light .md-link:hover {
   color: var(--color-secondary);
+}
+
+.md-dark .md-table th,
+.md-dark .md-table td {
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 /* ── Dark Tone (inside the DayModal header / banners) ─────────────────────── */
