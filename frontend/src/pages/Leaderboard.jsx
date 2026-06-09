@@ -7,6 +7,8 @@ import Globe from 'lucide-react/dist/esm/icons/globe';
 import BookOpen from 'lucide-react/dist/esm/icons/book-open';
 import './leaderboard.css';
 
+const LEADERBOARD_REFRESH_INTERVAL_MS = 30000;
+
 function Leaderboard() {
   const { user } = useAuth();
   const { modules, loading: modulesLoading } = useModules();
@@ -24,8 +26,10 @@ function Leaderboard() {
     ? 'Overall points accumulated by active students across all modules.'
     : `Points earned by students in the ${activeScopeTitle} module quizzes.`;
 
-  const loadLeaderboard = useCallback(async () => {
-    setLoading(true);
+  const loadLeaderboard = useCallback(async ({ silent = false } = {}) => {
+    if (!silent) {
+      setLoading(true);
+    }
     setError('');
     try {
       let data = [];
@@ -41,19 +45,23 @@ function Leaderboard() {
     } catch (err) {
       setError(err.message || 'Failed to load leaderboard standings.');
     } finally {
-      setLoading(false);
+      if (!silent) {
+        setLoading(false);
+      }
     }
   }, [selectedScope]);
 
   useEffect(() => {
-    let active = true;
-    if (active) {
-      Promise.resolve().then(() => {
-        loadLeaderboard();
-      });
-    }
+    loadLeaderboard();
+
+    const intervalId = setInterval(() => {
+      if (!document.hidden) {
+        loadLeaderboard({ silent: true });
+      }
+    }, LEADERBOARD_REFRESH_INTERVAL_MS);
+
     return () => {
-      active = false;
+      clearInterval(intervalId);
     };
   }, [loadLeaderboard]);
 

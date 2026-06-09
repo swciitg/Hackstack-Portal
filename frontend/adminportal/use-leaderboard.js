@@ -228,6 +228,7 @@ const MOCK_MODULE_DATA = {
 };
 
 const USE_MOCK = false;
+const LEADERBOARD_REFRESH_INTERVAL_MS = 30000;
 
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -257,28 +258,58 @@ export function useLeaderboard(view) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    setLoading(true);
-    setError(null);
+    let cancelled = false;
 
-    if (USE_MOCK) {
-      setTimeout(() => {
-        setEntries(
-          view === "global" ? MOCK_GLOBAL : (MOCK_MODULE_DATA[view] ?? []),
-        );
-        setLoading(false);
-      }, 300); // simulates network
-      return;
-    }
+    const fetchLeaderboard = async ({ silent = false } = {}) => {
+      if (!silent) {
+        setLoading(true);
+      }
+      setError(null);
 
-    const fetcher =
-      view === "global"
-        ? fetchGlobalLeaderboard()
-        : fetchModuleLeaderboard(view);
+      if (USE_MOCK) {
+        setTimeout(() => {
+          if (cancelled) return;
+          setEntries(
+            view === "global" ? MOCK_GLOBAL : (MOCK_MODULE_DATA[view] ?? []),
+          );
+          if (!silent) {
+            setLoading(false);
+          }
+        }, 300); // simulates network
+        return;
+      }
 
-    fetcher
-      .then(setEntries)
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false));
+      try {
+        const result =
+          view === "global"
+            ? await fetchGlobalLeaderboard()
+            : await fetchModuleLeaderboard(view);
+        if (!cancelled) {
+          setEntries(result);
+        }
+      } catch (e) {
+        if (!cancelled) {
+          setError(e.message);
+        }
+      } finally {
+        if (!cancelled && !silent) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchLeaderboard();
+
+    const intervalId = setInterval(() => {
+      if (!document.hidden) {
+        fetchLeaderboard({ silent: true });
+      }
+    }, LEADERBOARD_REFRESH_INTERVAL_MS);
+
+    return () => {
+      cancelled = true;
+      clearInterval(intervalId);
+    };
   }, [view]);
 
   return { entries, loading, error };
