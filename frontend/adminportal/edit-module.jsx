@@ -94,7 +94,7 @@ function MarkdownEditor({
             className="min-h-80 w-full resize-y rounded-lg border border-gray-700 bg-gray-900 px-4 py-3 font-mono text-sm leading-6 text-white outline-none transition placeholder:text-gray-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30"
           />
           <p className="mt-2 text-xs text-gray-600">
-            Supports headings, paragraphs, bullet lists, quotes, inline code, and code blocks.
+            Supports headings, paragraphs, ordered and bullet lists, italics, tables, images, quotes, inline code, and code blocks.
           </p>
         </label>
 

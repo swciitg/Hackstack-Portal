@@ -227,16 +227,16 @@ export default function AdminDashboard() {
               <h1 className="text-white font-bold text-lg leading-tight tracking-tight">
                 Hackstack Admin
               </h1>
-              <p className="text-gray-400 text-xs">
+              <p className="text-gray-300 text-xs">
                 Signed in as{" "}
-                <span className="text-gray-300">{admin?.username}</span>
+                <span className="text-gray-200">{admin?.username}</span>
               </p>
             </div>
           </div>
 
           <button
             onClick={handleLogout}
-            className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-red-400 transition-colors px-3 py-1.5 rounded-lg hover:bg-red-950/40"
+            className="flex items-center gap-1.5 text-sm text-gray-300 hover:text-red-400 transition-colors px-3 py-1.5 rounded-lg hover:bg-red-950/40"
           >
             <svg
               className="w-4 h-4"
@@ -264,7 +264,7 @@ export default function AdminDashboard() {
           <h2 className="text-2xl font-bold text-white tracking-tight">
             Dashboard
           </h2>
-          <p className="text-gray-400 text-sm mt-1">
+          <p className="text-gray-300 text-sm mt-1">
             Manage course content for the Hackstack portal.
           </p>
         </motion.div>
@@ -301,12 +301,12 @@ export default function AdminDashboard() {
               </h3>
 
               {/* Description */}
-              <p className="text-gray-400 text-sm leading-relaxed">
+              <p className="text-gray-300 text-sm leading-relaxed">
                 {action.description}
               </p>
 
               {/* Arrow */}
-              <div className="flex items-center gap-1 mt-5 text-gray-400 group-hover:text-indigo-400 transition-colors text-sm font-medium">
+              <div className="flex items-center gap-1 mt-5 text-gray-300 group-hover:text-indigo-400 transition-colors text-sm font-medium">
                 Go to page
                 <svg
                   className="w-4 h-4 group-hover:translate-x-1 transition-transform"
@@ -340,7 +340,7 @@ export default function AdminDashboard() {
           ].map((stat) => (
             <div key={stat.label} className="px-5 py-4 text-center">
               <p className="text-xl font-bold text-white">{stat.value}</p>
-              <p className="text-xs text-gray-400 mt-0.5">{stat.label}</p>
+              <p className="text-xs text-gray-300 mt-0.5">{stat.label}</p>
               <p className="text-[10px] text-gray-400 mt-0.5">{stat.note}</p>
             </div>
           ))}
