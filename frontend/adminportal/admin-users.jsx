@@ -78,7 +78,7 @@ export default function AdminUsers() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-950 px-4 py-10">
+    <div className="min-h-screen bg-gray-950 px-4 py-10 text-white">
       <div className="max-w-4xl mx-auto">
         {/* ── Top bar ─────────────────────────────────────────────────── */}
         <div className="flex items-center justify-between mb-8">

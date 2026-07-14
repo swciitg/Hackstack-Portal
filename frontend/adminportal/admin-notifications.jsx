@@ -209,7 +209,7 @@ export default function AdminNotifications() {
                         </button>
 
                         {/* Delete Button */}
-                        {(admin?.canDelete !== false) && (
+                        {(admin?.canDelete === true) && (
                           <button
                             onClick={() => handleDelete(notif._id)}
                             className="text-xs px-2.5 py-1 rounded-md font-semibold cursor-pointer border bg-red-950/60 text-red-300 border-red-800 hover:bg-red-900 transition-colors"

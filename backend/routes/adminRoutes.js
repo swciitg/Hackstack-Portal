@@ -7,6 +7,7 @@ const modulesCtrl = require('../controllers/moduleController');
 const quizzesCtrl = require('../controllers/quizController');
 const progressCtrl = require('../controllers/progressController');
 const usersCtrl = require('../controllers/userController');
+const adminProgressCtrl = require('../controllers/adminProgressController');
 
 const router = express.Router();
 
@@ -60,6 +61,12 @@ router.delete('/quizzes/:id', adminAuth, adminDeleteAuth, quizzesCtrl.deleteQuiz
 router.get('/progress', adminAuth, progressCtrl.listProgress);
 router.get('/progress/:id', adminAuth, progressCtrl.getProgress);
 router.patch('/progress/:id', adminAuth, progressCtrl.updateProgress);
+
+// Admin Progress Editor routes (canDelete only)
+router.get('/progress-editor/users', adminAuth, adminDeleteAuth, adminProgressCtrl.listUsersWithProgress);
+router.get('/progress-editor/users/:userId', adminAuth, adminDeleteAuth, adminProgressCtrl.getUserProgress);
+router.patch('/progress-editor/users/:userId/modules/:moduleId', adminAuth, adminDeleteAuth, adminProgressCtrl.updateUserModuleProgress);
+router.get('/progress-editor/modules', adminAuth, adminDeleteAuth, adminProgressCtrl.listModulesWithProgress);
 
 // Admin users routes
 router.get('/users-progress', adminAuth, async (req, res) => {

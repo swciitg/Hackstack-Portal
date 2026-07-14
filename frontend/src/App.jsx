@@ -28,6 +28,7 @@ import DeleteModule from "../adminportal/delete-module";
 import AdminLeaderboard from "../adminportal/leaderboard";
 import AdminUsers from "../adminportal/admin-users";
 import AdminNotifications from "../adminportal/admin-notifications";
+import AdminProgressEditor from "../adminportal/admin-progress-editor";
 import AdminProtectedRoute from "../adminportal/admin-protected-route";
 import { AdminAuthProvider } from "../adminportal/admin-auth-context";
 
@@ -71,77 +72,87 @@ const ProtectedApp = ({ children }) => (
 );
 
 const AdminApp = () => (
-                <AdminAuthProvider>
-                  <Routes>
-                    <Route path="login" element={<AdminLogin />} />
+  <AdminAuthProvider>
+    <div className="dark text-white bg-gray-950 min-h-screen">
+      <Routes>
+        <Route path="login" element={<AdminLogin />} />
 
-                    <Route
-                      path="dashboard"
-                      element={
-                        <AdminProtectedRoute>
-                          <AdminDashboard />
-                        </AdminProtectedRoute>
-                      }
-                    />
-                  <Route
-                      path="modules/create"
-                      element={
-                        <AdminProtectedRoute>
-                          <CreateModule />
-                        </AdminProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="modules/edit"
-                      element={
-                        <AdminProtectedRoute>
-                          <EditModule />
-                        </AdminProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="modules/edit/:id"
-                      element={
-                        <AdminProtectedRoute>
-                          <EditModule />
-                        </AdminProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="modules/delete"
-                      element={
-                        <AdminProtectedRoute>
-                          <DeleteModule />
-                        </AdminProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="leaderboard"
-                      element={
-                        <AdminProtectedRoute>
-                          <AdminLeaderboard />
-                        </AdminProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="users"
-                      element={
-                        <AdminProtectedRoute>
-                          <AdminUsers />
-                        </AdminProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="notifications"
-                      element={
-                        <AdminProtectedRoute>
-                          <AdminNotifications />
-                        </AdminProtectedRoute>
-                      }
-                    />
-                  </Routes>
-                </AdminAuthProvider>
-)
+        <Route
+          path="dashboard"
+          element={
+            <AdminProtectedRoute>
+              <AdminDashboard />
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="modules/create"
+          element={
+            <AdminProtectedRoute>
+              <CreateModule />
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="modules/edit"
+          element={
+            <AdminProtectedRoute>
+              <EditModule />
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="modules/edit/:id"
+          element={
+            <AdminProtectedRoute>
+              <EditModule />
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="modules/delete"
+          element={
+            <AdminProtectedRoute>
+              <DeleteModule />
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="leaderboard"
+          element={
+            <AdminProtectedRoute>
+              <AdminLeaderboard />
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="users"
+          element={
+            <AdminProtectedRoute>
+              <AdminUsers />
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="notifications"
+          element={
+            <AdminProtectedRoute>
+              <AdminNotifications />
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="progress-editor"
+          element={
+            <AdminProtectedRoute>
+              <AdminProgressEditor />
+            </AdminProtectedRoute>
+          }
+        />
+      </Routes>
+    </div>
+  </AdminAuthProvider>
+);
 
 const App = () => {
   return (

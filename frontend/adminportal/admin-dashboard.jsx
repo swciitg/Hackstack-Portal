@@ -91,6 +91,7 @@ const ACTIONS = [
       "Select an existing module from the admin list and remove it from the portal.",
     badge: "Danger",
     badgeColor: "bg-red-900/60 text-red-300 border border-red-700",
+    requireDelete: true,
   },
   {
     key: "users",
@@ -143,8 +144,37 @@ const ACTIONS = [
       "Send custom updates, system announcements, or meet links to the user dashboard.",
     badge: "Alerts",
     badgeColor: "bg-indigo-900/60 text-indigo-300 border border-indigo-700",
+    requireDelete: false,
+  },
+  {
+    key: "progress-editor",
+    path: "/admin/progress-editor",
+    icon: (
+      <svg
+        className="w-7 h-7"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={1.8}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+        />
+      </svg>
+    ),
+    iconBg: "bg-violet-500/15 text-violet-400",
+    border: "hover:border-violet-500/60",
+    title: "Progress Editor",
+    description:
+      "Directly edit any user's completed days, quiz scores, per-question answers, and module completion state.",
+    badge: "canDelete",
+    badgeColor: "bg-violet-900/60 text-violet-300 border border-violet-700",
+    requireDelete: true,
   },
 ];
+
 
 export default function AdminDashboard() {
   const { admin, logout } = useAdminAuth();
@@ -203,7 +233,7 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 px-4 py-10">
+    <div className="min-h-screen bg-gray-950 px-4 py-10 text-white">
       <div className="max-w-3xl mx-auto">
         {/* ── Top bar ─────────────────────────────────────────────────── */}
         <div className="flex items-center justify-between mb-10">
@@ -271,7 +301,7 @@ export default function AdminDashboard() {
 
         {/* ── Action Cards ─────────────────────────────────────────────── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {ACTIONS.filter(a => a.key !== "delete" || admin?.canDelete).map((action, i) => (
+          {ACTIONS.filter(a => !a.requireDelete || admin?.canDelete).map((action, i) => (
             <motion.button
               key={action.key}
               initial={{ opacity: 0, y: 20 }}

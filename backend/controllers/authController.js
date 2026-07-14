@@ -129,15 +129,20 @@ exports.handleGoogleCallback = async (req, res) => {
 };
 
 exports.getMe = async (req, res) => {
-  const user = await User.findById(req.user._id)
-    .populate('registeredModules', 'title slug difficulty')
-    .select('-googleId');
+  try {
+    const user = await User.findById(req.user._id)
+      .populate('registeredModules', 'title slug difficulty')
+      .select('-googleId');
 
-  if (!user) {
-    return res.status(404).json({ message: 'User not found.' });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error('getMe error:', error);
+    res.status(500).json({ message: 'Internal server error.', error: error.message });
   }
-
-  res.json(user);
 };
 
 exports.completeProfile = async (req, res) => {
@@ -182,14 +187,19 @@ exports.completeProfile = async (req, res) => {
 };
 
 exports.checkUsername = async (req, res) => {
-  const { username } = req.query;
+  try {
+    const { username } = req.query;
 
-  if (!username || username.length < 3) {
-    return res.json({ available: false, message: 'Username must be at least 3 characters.' });
+    if (!username || username.length < 3) {
+      return res.json({ available: false, message: 'Username must be at least 3 characters.' });
+    }
+
+    const existing = await User.findOne({ username: username.toLowerCase() });
+    res.json({ available: !existing });
+  } catch (error) {
+    console.error('checkUsername error:', error);
+    res.status(500).json({ message: 'Internal server error.', error: error.message });
   }
-
-  const existing = await User.findOne({ username: username.toLowerCase() });
-  res.json({ available: !existing });
 };
 
 exports.logout = async (req, res) => {
@@ -273,17 +283,19 @@ exports.adminLogin = async (req, res) => {
       });
     }
 
-    const canDelete = whitelistRecord ? !!whitelistRecord.canDelete : false;
+    const canDelete = isEmailAllowed || isIdAllowed || (whitelistRecord ? !!whitelistRecord.canDelete : false);
+
+    const tokenUsername = user.email || username;
 
     const token = jwt.sign(
-      { isAdmin: true, username, canDelete },
+      { isAdmin: true, username: tokenUsername, canDelete },
       process.env.JWT_SECRET,
       { expiresIn: '30d' },
     );
 
     return res.json({
       token,
-      user: { username, isAdmin: true, canDelete },
+      user: { username: tokenUsername, isAdmin: true, canDelete },
     });
   } catch (error) {
     console.error('adminLogin whitelist check error:', error);

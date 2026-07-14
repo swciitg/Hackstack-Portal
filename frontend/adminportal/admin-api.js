@@ -155,7 +155,7 @@ export async function mockAdminLogin({ username, password }) {
   if (username === "admin" && password === "hackstack123") {
     return {
       token: "mock_jwt_token",
-      user: { _id: "admin_001", username: "admin", avatarUrl: "", isAdmin: true },
+      user: { _id: "admin_001", username: "admin", avatarUrl: "", isAdmin: true, canDelete: true },
     };
   }
   throw new Error("Invalid credentials");
@@ -294,3 +294,43 @@ export async function deleteAdminNotification(id) {
   });
   return parseJsonResponse(res, "Failed to delete notification");
 }
+
+// ── Progress Editor API ─────────────────────────────────────────────────────
+
+export async function getProgressEditorUsers() {
+  const res = await fetch(`${BASE_URL}/admin/progress-editor/users`, {
+    credentials: "include",
+    headers: getAdminHeaders(),
+  });
+  return parseJsonResponse(res, "Failed to load users with progress");
+}
+
+export async function getProgressEditorUser(userId) {
+  const res = await fetch(`${BASE_URL}/admin/progress-editor/users/${userId}`, {
+    credentials: "include",
+    headers: getAdminHeaders(),
+  });
+  return parseJsonResponse(res, "Failed to load user progress");
+}
+
+export async function updateProgressEditorUserModule(userId, moduleId, data) {
+  const res = await fetch(
+    `${BASE_URL}/admin/progress-editor/users/${userId}/modules/${moduleId}`,
+    {
+      method: "PATCH",
+      credentials: "include",
+      headers: getAdminHeaders(),
+      body: JSON.stringify(data),
+    }
+  );
+  return parseJsonResponse(res, "Failed to update user progress");
+}
+
+export async function getProgressEditorModules() {
+  const res = await fetch(`${BASE_URL}/admin/progress-editor/modules`, {
+    credentials: "include",
+    headers: getAdminHeaders(),
+  });
+  return parseJsonResponse(res, "Failed to load modules with progress");
+}
+

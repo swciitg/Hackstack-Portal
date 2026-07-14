@@ -35,9 +35,14 @@ exports.adminToggleNotification = async (req, res) => {
   }
 
   try {
+    const { content, active } = req.body;
+    const updatePayload = {};
+    if (content !== undefined) updatePayload.content = content;
+    if (active !== undefined) updatePayload.active = active;
+
     const notification = await Notification.findByIdAndUpdate(
       id,
-      req.body,
+      updatePayload,
       { new: true, runValidators: true }
     );
     if (!notification) {

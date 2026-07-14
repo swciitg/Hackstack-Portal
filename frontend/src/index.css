@@ -60,7 +60,15 @@
   --warning-bg:     rgba(255, 175, 56, 0.10);
   --warning-border: rgba(238, 192, 74, 0.35);
   --danger-bg:      #fff1f1;
-  --danger-border:  rgba(223, 67, 67, 0.22);
+}
+
+.dark {
+  --text-strong:    #ffffff;
+  --text:           #f3f4f6;
+  --muted:          #9ca3af;
+  --surface:        #111827;
+  --surface-solid:  #030712;
+  --surface-subtle: #1f2937;
 }
 
 /* ── Base ─────────────────────────────────────────────────────────────────── */

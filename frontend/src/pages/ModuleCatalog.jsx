@@ -88,8 +88,7 @@ function ModuleCatalog() {
     <div className="modules-shell">
       <header className="modules-hero">
         <span className="modules-pill">
-          {learningSummary.totalStacks} stacks · {learningSummary.totalDays} days
-          · build something real
+          {learningSummary.totalStacks} stacks · build something real
         </span>
         <h2>Your Learning Path</h2>
         <p>
@@ -170,7 +169,7 @@ function ModuleCatalog() {
                   <div className="module-card-body">
                     <div className="module-chip-row">
                       <span>{module.dayCount} days</span>
-                      <span>{quizzes.length} quiz questions</span>
+                      <span>{module.dayCount} quizzes available</span>
                       <span>{videoCount} videos included</span>
                       <span>
                         {isRegistered ? `${completedDays} days done` : "Not enrolled"}

@@ -364,6 +364,19 @@ export default function EditModule() {
     }));
   };
 
+  const removeDay = (dayIndex) => {
+    if (days.length === 1) {
+      setError("A module must have at least one day.");
+      return;
+    }
+    const confirmed = window.confirm(
+      `Are you sure you want to delete Day ${dayIndex}? This will remove its reading material and quizzes, and shift subsequent days up.`
+    );
+    if (!confirmed) return;
+    setDays((current) => current.filter((_, index) => index !== dayIndex));
+    setSuccess(`Day ${dayIndex} removed. Click 'Save Changes' to apply.`);
+  };
+
   const preparePayload = () => {
     const trimmedName = moduleName.trim();
     const slug = slugify(trimmedName);
@@ -703,8 +716,17 @@ Connect pages to real APIs`}
                     </p>
                     <h2 className="text-lg font-bold">Videos, reading, and quiz</h2>
                   </div>
-                  <div className="rounded-full bg-gray-950 px-3 py-1 text-xs text-gray-400">
-                    {day.questions.length} question{day.questions.length === 1 ? "" : "s"}
+                  <div className="flex items-center gap-3">
+                    <div className="rounded-full bg-gray-950 px-3 py-1 text-xs text-gray-400">
+                      {day.questions.length} question{day.questions.length === 1 ? "" : "s"}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => removeDay(dayIndex)}
+                      className="rounded-lg bg-red-950/40 border border-red-800 text-red-300 px-3 py-1 text-xs font-semibold hover:bg-red-900 transition-colors"
+                    >
+                      Delete Day
+                    </button>
                   </div>
                 </div>
 

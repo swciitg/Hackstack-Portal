@@ -75,7 +75,7 @@ router.get('/admin-check', async (req, res) => {
     const isIdAllowed = user.googleId && allowedIds.includes(user.googleId.toString());
 
     if (isWhitelisted || isEmailAllowed || isIdAllowed) {
-      const canDelete = isWhitelisted ? !!isWhitelisted.canDelete : false;
+      const canDelete = isEmailAllowed || isIdAllowed || (isWhitelisted ? !!isWhitelisted.canDelete : false);
       const adminToken = jwt.sign(
         { isAdmin: true, username: user.email, canDelete },
         process.env.JWT_SECRET,

@@ -31,8 +31,13 @@ const adminAuth = async (req, res, next) => {
 
     const username = decoded.username;
 
-    // Bypass database lookup if it is the credential-based root admin
-    if (username && username === process.env.ADMIN_USERNAME) {
+    const allowedEmails = (process.env.ALLOWED_ADMIN_GOOGLE_EMAILS || '')
+      .toLowerCase().split(',').map(s => s.trim()).filter(Boolean);
+    const isRootAdmin = (username && username === process.env.ADMIN_USERNAME) ||
+                        (username && allowedEmails.includes(username.toLowerCase()));
+
+    // Bypass database lookup if it is the root admin
+    if (isRootAdmin) {
       req.admin = { username, isAdmin: true, canDelete: true };
       return next();
     }
