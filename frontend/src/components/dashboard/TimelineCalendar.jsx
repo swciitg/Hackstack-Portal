@@ -178,10 +178,10 @@ export function TimelineCalendar() {
                       left:            `${left}%`,
                       width:           `${width}%`,
                       background:      track.color,
-                      border:          `1px solid rgba(27, 39, 180, 0.15)`,
+                      border:          `1px solid rgba(6, 32, 51, 0.28)`,
                       boxShadow:       isHovered
-                        ? `0 6px 16px rgba(27, 39, 180, 0.15)`
-                        : `0 2px 6px rgba(27, 39, 180, 0.05)`,
+                        ? `0 6px 16px rgba(0, 0, 0, 0.3)`
+                        : `0 2px 6px rgba(0, 0, 0, 0.18)`,
                     }}
                     onMouseEnter={() => setHovered(track.id)}
                     onMouseLeave={() => setHovered(null)}

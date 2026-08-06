@@ -1,4 +1,4 @@
-/* ── TimelineCalendar ─────────────────────────────────────────────────────── */
+/* ── TimelineCalendar — Arcade Night ──────────────────────────────────────── */
 
 /* ── Section wrapper ────────────────────────────────────────────────────── */
 .tl-section {
@@ -20,30 +20,34 @@
   display: flex;
   flex-direction: column;
   gap: 0.45rem;
+  min-width: 0;
 }
 
 .tl-badge {
   display: inline-flex;
   align-items: center;
-  padding: 0.38rem 0.8rem;
+  padding: 0.4rem 0.8rem;
   border-radius: var(--radius-sm);
   background: var(--accent-soft);
+  border: 1px solid rgba(0, 194, 255, 0.28);
   color: var(--accent-strong);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.10em;
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  font-family: var(--font-body);
+  font-family: var(--font-pixel);
   width: fit-content;
 }
 
 .tl-title {
   margin: 0;
   font-size: clamp(1.6rem, 3vw, 2.2rem);
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em;
   color: var(--text-strong);
   font-family: var(--font-display);
   line-height: 1.1;
+  overflow-wrap: anywhere;
+  min-width: 0;
 }
 
 .tl-subtitle {
@@ -59,31 +63,32 @@
 }
 
 .tl-tagline {
-  font-family: var(--font-display);
-  font-size: 0.88rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  color: var(--color-primary);
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-strong);
   background: var(--accent-soft);
   padding: 0.45rem 1rem;
-  border-radius: 999px;
-  border: 1px solid rgba(48, 62, 210, 0.18);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(0, 194, 255, 0.28);
 }
 
 /* ── Main card ──────────────────────────────────────────────────────────── */
 .tl-card {
   --tl-padding: 1.5rem;
   border-radius: var(--radius-md);
-  border: 1px solid var(--line-strong);
+  border: 2px solid var(--line-strong);
   background: var(--surface);
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow-chunky);
   overflow: hidden;
   position: relative;
-  /* Rich blue gradient header matching the poster */
   background:
-    linear-gradient(180deg,
-      rgba(48, 62, 210, 0.06) 0%,
-      transparent 20%
+    linear-gradient(
+      180deg,
+      rgba(0, 194, 255, 0.07) 0%,
+      transparent 22%
     ),
     var(--surface);
 }
@@ -118,13 +123,12 @@
 
 .tl-month-marker {
   position: absolute;
-  transform: translateX(0);
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 0.13em;
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--color-primary);
-  font-family: var(--font-body);
+  font-family: var(--font-pixel);
   top: 50%;
   transform: translateY(-50%);
 }
@@ -133,7 +137,7 @@
 .tl-axis--dates {
   padding: 0.5rem var(--tl-padding) 0.5rem;
   border-bottom: 2px solid var(--line-strong);
-  background: rgba(48, 62, 210, 0.03);
+  background: rgba(0, 194, 255, 0.05);
 }
 
 .tl-date-marker {
@@ -142,7 +146,7 @@
   font-size: 0.82rem;
   font-weight: 700;
   color: var(--text-strong);
-  font-family: var(--font-display);
+  font-family: var(--font-crt);
   top: 50%;
   transform: translateX(-50%) translateY(-50%);
 }
@@ -151,14 +155,14 @@
   position: absolute;
   top: 0;
   transform: translateX(-50%);
-  font-size: 0.65rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  font-size: 8px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #E5484D;
-  font-family: var(--font-body);
+  color: #ff8085;
+  font-family: var(--font-pixel);
   white-space: nowrap;
-  background: rgba(229, 72, 77, 0.10);
+  background: rgba(255, 90, 95, 0.14);
   padding: 2px 6px;
   border-radius: var(--radius-sm);
 }
@@ -183,15 +187,15 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  background: rgba(238, 175, 56, 0.07); /* Clearly different background color for July */
-  border-left: 2px dotted var(--color-primary); /* Distinct dotted boundary line */
+  background: rgba(255, 175, 56, 0.06);
+  border-left: 2px dotted var(--color-primary);
   pointer-events: none;
   z-index: 0;
   transition: background-color 200ms ease;
 }
 
 .tl-card:hover .tl-july-bg-shading {
-  background: rgba(238, 175, 56, 0.09);
+  background: rgba(255, 175, 56, 0.09);
 }
 
 .tl-grid-lines {
@@ -225,11 +229,11 @@
 
 /* Highlighted start and end lines drawn OVER the bars on hover */
 .tl-grid-line--highlighted {
-  width: 1px !important; /* Elegant thin line */
+  width: 1px !important;
   background: var(--color-primary) !important;
-  box-shadow: 0 0 6px rgba(48, 62, 210, 0.35); /* Softer glow */
-  opacity: 0.65 !important; /* Semi-transparent so it remains light and non-intrusive */
-  z-index: 10 !important; /* Overlay bars */
+  box-shadow: 0 0 6px rgba(0, 194, 255, 0.45);
+  opacity: 0.7 !important;
+  z-index: 10 !important;
 }
 
 .tl-today-line {
@@ -237,20 +241,20 @@
   top: 0;
   bottom: 0;
   width: 2px;
-  background: #E5484D;
+  background: #ff5a5f;
   transform: translateX(-50%);
   z-index: 10;
-  box-shadow: 0 0 8px rgba(229, 72, 77, 0.4);
+  box-shadow: 0 0 8px rgba(255, 90, 95, 0.45);
 }
 
 /* ── Date Marker Specific Styles ────────────────────────────────────────── */
 .tl-date-marker--july {
   color: var(--color-primary) !important;
-  font-weight: 800 !important;
-  background: rgba(48, 62, 210, 0.08);
+  font-weight: 700 !important;
+  background: rgba(0, 194, 255, 0.1);
   padding: 2px 7px;
   border-radius: 4px;
-  border: 1px solid rgba(48, 62, 210, 0.15);
+  border: 1px solid rgba(0, 194, 255, 0.3);
   font-size: 0.72rem !important;
 }
 
@@ -286,14 +290,14 @@
   top: 50%;
   transform: translateY(-50%);
   height: 2.25rem;
-  border-radius: 6px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0 0.9rem;
   gap: 0.4rem;
   cursor: pointer;
-  z-index: 2; /* Sit below highlighted grid lines but above standard grid lines */
+  z-index: 2;
   transition:
     transform 220ms cubic-bezier(0.175, 0.885, 0.32, 1.1),
     box-shadow 220ms ease,
@@ -306,21 +310,21 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(255,255,255,0.08) 0%, transparent 60%);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.18) 0%, transparent 60%);
   border-radius: inherit;
   pointer-events: none;
 }
 
 .tl-bar--hovered {
   transform: translateY(-50%) scale(1.015);
-  filter: brightness(1.05);
+  filter: brightness(1.08);
   z-index: 5;
 }
 
 .tl-bar-label {
   font-size: 0.84rem;
   font-weight: 700;
-  color: var(--text-strong); /* Dark indigo text for perfect contrast on light pastel bars */
+  color: #1a2340; /* dark text on light pastel bars */
   font-family: var(--font-display);
   letter-spacing: 0.01em;
   position: relative;

@@ -1,25 +1,30 @@
-/* ── Hackstack Brand Fonts ─────────────────────────────────────────────────── */
-/* Clash Grotesk — Display typeface (Fontshare CDN) */
-@import url("https://api.fontshare.com/v2/css?f[]=clash-grotesk@400,500,600,700&display=swap");
-/* Roboto — Body typeface (Google Fonts) */
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+/* Hallmark · pre-emit critique: P5 H4 E5 S5 R4 V5
+ * macrostructure: Game Shell · tone: playful-arcade · anchor hue: cyan
+ * theme: Arcade Night (custom) · paper oklch(23% 0.03 265) · accent oklch(78% 0.15 220)
+ * display: Pixelify Sans + Press Start 2P + VT323 · body: Roboto
+ * Theme Axes: dark paper band · pixel display · cyan accent
+ */
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Pixelify+Sans:wght@400..700&family=Roboto:wght@400;500;700&display=swap");
 
-/* ── Brand Design Tokens ──────────────────────────────────────────────────── */
+/* ── Arcade Design Tokens ─────────────────────────────────────────────────── */
 :root {
   /* Brand colors */
-  --color-primary:   #303ED2;
-  --color-secondary: #1B27B4;
-  --color-surface:   #FFF7EB;
-  --color-accent-1:  #EEC04A;
-  --color-accent-2:  #FFAF38;
+  --color-primary:   #00c2ff;   /* neon cyan — the "player" accent */
+  --color-secondary: #7b5cff;   /* pixel violet — secondary accent */
+  --color-surface:   #f4f6fb;   /* cream paper — score cards & chips */
+  --color-accent-1:  #ffd166;   /* XP gold */
+  --color-accent-2:  #ffaf38;   /* warm amber */
 
   /* Typography */
-  --font-display: 'Clash Grotesk', sans-serif;
+  --font-display: 'Pixelify Sans', 'Press Start 2P', sans-serif;
+  --font-pixel:   'Press Start 2P', monospace;
+  --font-crt:     'VT323', monospace;
+  --font-outfit:  'VT323', monospace;
   --font-body:    'Roboto', sans-serif;
 
-  /* Corner radius */
+  /* Corner radius — small, chunky, pixel-friendly */
   --radius-sm: 4px;
-  --radius-md: 6px;
+  --radius-md: 8px;
 
   /* Spacing scale (base-8) */
   --space-1: 4px;
@@ -31,43 +36,62 @@
   --space-7: 48px;
   --space-8: 64px;
 
-  /* ── Semantic UI tokens (light / brand palette) ── */
+  /* ── Semantic UI tokens (Arcade Night) ── */
   --page-bg:
-    radial-gradient(circle at 10% 0%, rgba(48, 62, 210, 0.07), transparent 32%),
-    radial-gradient(circle at 90% 10%, rgba(238, 192, 74, 0.06), transparent 28%),
-    #F5EFE4;
+    radial-gradient(1.5px 1.5px at 12% 22%, rgba(255, 255, 255, 0.55) 50%, transparent 100%),
+    radial-gradient(1px 1px at 78% 12%, rgba(0, 194, 255, 0.5) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 34% 68%, rgba(255, 255, 255, 0.32) 50%, transparent 100%),
+    radial-gradient(1px 1px at 88% 55%, rgba(255, 255, 255, 0.42) 50%, transparent 100%),
+    radial-gradient(1px 1px at 55% 34%, rgba(123, 92, 255, 0.35) 50%, transparent 100%),
+    radial-gradient(1px 1px at 64% 84%, rgba(255, 255, 255, 0.3) 50%, transparent 100%),
+    linear-gradient(180deg, #0b1020 0%, #0a0f1a 45%, #0d1526 100%);
 
-  --surface:        rgba(255, 247, 235, 0.96);
-  --surface-solid:  #FFF7EB;
-  --surface-subtle: #F0E8D8;
+  --surface:        rgba(19, 30, 54, 0.92);
+  --surface-solid:  #101a2e;
+  --surface-subtle: #16233f;
 
-  --text-strong:    #0E1340;
-  --text:           #2A3060;
-  --muted:          #6B71A8;
+  --text-strong:    #f4f6fb;
+  --text:           #c6d0e6;
+  --muted:          #8494b8;
 
-  --line:           rgba(27, 39, 180, 0.10);
-  --line-strong:    rgba(27, 39, 180, 0.18);
+  --line:           rgba(148, 180, 255, 0.14);
+  --line-strong:    rgba(148, 180, 255, 0.28);
 
-  --accent:         #303ED2;
-  --accent-strong:  #1B27B4;
-  --accent-soft:    rgba(48, 62, 210, 0.10);
+  --accent:         #00c2ff;
+  --accent-strong:  #4fd8ff;
+  --accent-soft:    rgba(0, 194, 255, 0.12);
 
-  --shadow-soft:    0 8px 32px rgba(27, 39, 180, 0.08);
-  --shadow-strong:  0 20px 60px rgba(27, 39, 180, 0.14);
+  --shadow-soft:    0 8px 28px rgba(0, 0, 0, 0.38);
+  --shadow-strong:  0 24px 64px rgba(0, 0, 0, 0.52);
+  --shadow-chunky:  4px 4px 0 rgba(0, 0, 0, 0.45);
+  --ring:           #00c2ff;
 
-  --success-bg:     #eafcf3;
-  --success-border: rgba(30, 173, 96, 0.22);
-  --warning-bg:     rgba(255, 175, 56, 0.10);
-  --warning-border: rgba(238, 192, 74, 0.35);
-  --danger-bg:      #fff1f1;
-  --danger-border:  rgba(223, 67, 67, 0.22);
+  --success-bg:     rgba(46, 204, 113, 0.14);
+  --success-border: rgba(46, 204, 113, 0.42);
+  --success-text:   #3ddc84;
+  --warning-bg:     rgba(255, 175, 56, 0.12);
+  --warning-border: rgba(255, 209, 102, 0.42);
+  --danger-bg:      rgba(255, 90, 95, 0.13);
+  --danger-border:  rgba(255, 90, 95, 0.42);
+  --danger-text:    #ff8085;
+
+  /* Pixel striped progress fill (two background layers) */
+  --pixel-fill-bg:
+    linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent-2) 100%),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.28) 0 7px,
+      transparent 7px 14px
+    );
 }
 
 /* ── Base ─────────────────────────────────────────────────────────────────── */
 html {
   min-height: 100%;
-  background: #F5EFE4;
+  background: #0a0f1a;
   font-size: 16px;
+  color-scheme: dark;
+  overflow-x: clip;
 }
 
 body {
@@ -80,6 +104,7 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
 }
 
 body,
@@ -107,6 +132,8 @@ h4 {
   color: var(--text-strong);
   font-family: var(--font-display);
   margin: 0;
+  overflow-wrap: anywhere;
+  min-width: 0;
 }
 
 a {
@@ -132,7 +159,35 @@ button:disabled {
   cursor: not-allowed;
 }
 
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: rgba(0, 194, 255, 0.32);
+  color: #f4f6fb;
+}
+
 code,
 pre {
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+/* ── Font utility classes (used by components) ────────────────────────────── */
+.font-display { font-family: var(--font-display); }
+.font-outfit  { font-family: var(--font-outfit); }
+.font-pixel   { font-family: var(--font-pixel); }
+.font-crt     { font-family: var(--font-crt); }
+
+/* ── Reduced motion ───────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

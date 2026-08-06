@@ -1,4 +1,4 @@
-import { ArrowRight, Sparkles, Trophy } from "lucide-react";
+import { ArrowRight, Trophy } from "lucide-react";
 import { Link } from "react-router-dom";
 import "./dashboard.css";
 
@@ -33,7 +33,7 @@ export function DashboardHero({ username, summary }) {
       <div className="dashboard-hero-panel">
         <div className="dashboard-hero-panel-top">
           <div>
-            <span className="font-display">Completion snapshot</span>
+            <span>Completion snapshot</span>
             <strong>{summary.averageCompletion} %</strong>
           </div>
           <div className="dashboard-hero-medal">
@@ -55,8 +55,8 @@ export function DashboardHero({ username, summary }) {
 function HeroMetric({ label, value }) {
   return (
     <div className="dashboard-hero-metric">
-      <span className="font-outfit">{label}</span>
-      <strong className="font-display">{value}</strong>
+      <span>{label}</span>
+      <strong>{value}</strong>
     </div>
   );
 }

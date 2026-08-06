@@ -123,6 +123,7 @@ const loginStyles = `
     width: 420px;
     box-shadow: 6px 6px 0 #b0bdd4, 0 0 40px rgba(0,194,255,0.08);
     animation: loginFadeUp 0.5s ease both;
+    color-scheme: light;
   }
 
   @keyframes loginFadeUp {
@@ -284,7 +285,8 @@ export default function Login() {
   }, []);
 
   const handleGoogleLogin = () => {
-    window.location.href = "/hackstack/api/auth/google";
+    // window.location.href = "/hackstack/api/auth/google";
+    window.location.href = "http://localhost:5000/auth/google";
   };
 
   return (
@@ -309,8 +311,8 @@ export default function Login() {
         <div className="login-ascii-logo">
           <pre>{`██╗  ██╗ █████╗  ██████╗██╗  ██╗███████╗████████╗ █████╗  ██████╗██╗  ██╗
 ██║  ██║██╔══██╗██╔════╝██║ ██╔╝██╔════╝╚══██╔══╝██╔══██╗██╔════╝██║ ██╔╝
-███████║███████║██║     █████╔╝ ███████╗   ██║   ███████║██║     █████╔╝ 
-██╔══██║██╔══██║██║     ██╔═██╗ ╚════██║   ██║   ██╔══██║██║     ██╔═██╗ 
+███████║███████║██║     █████╔╝ ███████╗   ██║   ███████║██║     █████╔╝
+██╔══██║██╔══██║██║     ██╔═██╗ ╚════██║   ██║   ██╔══██║██║     ██╔═██╗
 ██║  ██║██║  ██║╚██████╗██║  ██╗███████║   ██║   ██║  ██║╚██████╗██║  ██╗
 ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝`}</pre>
         </div>

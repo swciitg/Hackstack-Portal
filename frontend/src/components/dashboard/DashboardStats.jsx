@@ -48,7 +48,7 @@ function StatCard({ label, value, detail, progress }) {
   const showProgress = progress !== undefined && progress !== null;
   return (
     <article className="dashboard-stat-card">
-      <span className="font-outfit">{label}</span>
+      <span>{label}</span>
       <strong>{value}</strong>
       <p>{detail}</p>
       {showProgress && (

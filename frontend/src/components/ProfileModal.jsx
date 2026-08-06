@@ -19,19 +19,19 @@ const modalStyles = `
     align-items: center;
     justify-content: center;
     padding: 16px;
-    background: rgba(27, 39, 180, 0.18);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background: rgba(3, 6, 16, 0.72);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
   }
 
   .profile-modal {
     position: relative;
     width: 100%;
     max-width: 480px;
-    background: var(--color-surface);
-    border: 1px solid var(--line);
+    background: var(--surface-solid);
+    border: 2px solid var(--line-strong);
     border-radius: var(--radius-md);
-    box-shadow: 0 24px 64px rgba(27, 39, 180, 0.18);
+    box-shadow: var(--shadow-chunky), 0 24px 64px rgba(0, 0, 0, 0.5);
     padding: 28px;
     overflow: hidden;
   }
@@ -40,8 +40,11 @@ const modalStyles = `
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 96px;
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    background:
+      radial-gradient(1px 1px at 22% 40%, rgba(255, 255, 255, 0.55) 50%, transparent 100%),
+      linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
     z-index: 0;
+    border-bottom: 3px solid rgba(255, 255, 255, 0.18);
   }
 
   .profile-modal-content {
@@ -60,12 +63,12 @@ const modalStyles = `
     display: flex;
     align-items: center;
     gap: 8px;
-    font-family: var(--font-body);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.10em;
+    font-family: var(--font-pixel);
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: rgba(255, 247, 235, 0.90);
+    color: rgba(244, 246, 251, 0.92);
   }
 
   .profile-close-btn {
@@ -74,16 +77,17 @@ const modalStyles = `
     display: grid;
     place-items: center;
     border-radius: var(--radius-sm);
-    background: rgba(255, 247, 235, 0.15);
-    border: 1px solid rgba(255, 247, 235, 0.20);
-    color: rgba(255, 247, 235, 0.85);
+    background: rgba(255, 255, 255, 0.12);
+    border: 2px solid rgba(255, 255, 255, 0.24);
+    color: rgba(244, 246, 251, 0.88);
     cursor: pointer;
-    transition: background 180ms ease, color 180ms ease;
+    transition: background 180ms ease, color 180ms ease, transform 180ms ease;
   }
 
   .profile-close-btn:hover {
-    background: rgba(255, 247, 235, 0.25);
+    background: rgba(255, 255, 255, 0.22);
     color: #fff;
+    transform: translate(-1px, -1px);
   }
 
   .profile-avatar-wrap {
@@ -104,8 +108,8 @@ const modalStyles = `
     height: 80px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid var(--color-surface);
-    box-shadow: 0 8px 24px rgba(27, 39, 180, 0.20);
+    border: 3px solid var(--surface-solid);
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4);
   }
 
   .profile-avatar-fallback {
@@ -113,14 +117,14 @@ const modalStyles = `
     height: 80px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
-    border: 3px solid var(--color-surface);
-    box-shadow: 0 8px 24px rgba(27, 39, 180, 0.20);
+    border: 3px solid var(--surface-solid);
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4);
     display: grid;
     place-items: center;
-    font-family: var(--font-display);
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--color-surface);
+    font-family: var(--font-pixel);
+    font-size: 24px;
+    font-weight: 400;
+    color: #062033;
   }
 
   .profile-active-badge {
@@ -132,12 +136,13 @@ const modalStyles = `
     gap: 4px;
     padding: 2px 8px;
     border-radius: var(--radius-sm);
-    background: var(--color-accent-1);
+    background: linear-gradient(180deg, #ffd166 0%, #f5a623 100%);
     color: #3a2800;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    border: 2px solid var(--color-surface);
+    font-size: 8px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    font-family: var(--font-pixel);
+    border: 2px solid var(--surface-solid);
   }
 
   .profile-name {
@@ -145,15 +150,16 @@ const modalStyles = `
     font-size: 20px;
     font-weight: 700;
     color: var(--text-strong);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
     margin: 0;
+    overflow-wrap: anywhere;
   }
 
   .profile-username {
     margin-top: 4px;
     font-size: 13px;
     font-weight: 500;
-    color: var(--color-primary);
+    color: var(--accent-strong);
   }
 
   .profile-grid {
@@ -168,15 +174,15 @@ const modalStyles = `
     align-items: flex-start;
     gap: 10px;
     padding: 12px;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--line);
     background: var(--surface-subtle);
     transition: border-color 180ms ease, background 180ms ease;
   }
 
   .profile-field:hover {
-    border-color: var(--line-strong);
-    background: var(--surface-solid);
+    border-color: rgba(0, 194, 255, 0.4);
+    background: var(--surface);
   }
 
   .profile-field-icon {
@@ -186,19 +192,20 @@ const modalStyles = `
     height: 28px;
     border-radius: var(--radius-sm);
     background: var(--accent-soft);
+    border: 1px solid rgba(0, 194, 255, 0.28);
     color: var(--accent-strong);
     flex-shrink: 0;
   }
 
   .profile-field-label {
     display: block;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
+    font-size: 8px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--muted);
     margin-bottom: 3px;
-    font-family: var(--font-body);
+    font-family: var(--font-pixel);
   }
 
   .profile-field-value {
@@ -223,26 +230,29 @@ const modalStyles = `
     align-items: center;
     gap: 8px;
     padding: 10px 20px;
-    border-radius: var(--radius-md);
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
-    color: var(--color-surface);
-    font-family: var(--font-display);
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    border: none;
+    border-radius: var(--radius-sm);
+    background: linear-gradient(180deg, #22d3ff 0%, #009ad9 100%);
+    color: #062033;
+    font-family: var(--font-pixel);
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 2px solid rgba(255, 255, 255, 0.2);
     cursor: pointer;
-    box-shadow: 0 4px 16px rgba(48, 62, 210, 0.25);
-    transition: opacity 180ms ease, transform 180ms ease;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.42);
+    transition: opacity 180ms ease, transform 180ms ease, box-shadow 180ms ease;
   }
 
   .profile-close-primary:hover {
-    opacity: 0.92;
-    transform: translateY(-1px);
+    opacity: 0.95;
+    transform: translate(-1px, -1px);
+    box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.42);
   }
 
   .profile-close-primary:active {
-    transform: translateY(0);
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.42);
   }
 
   @media (max-width: 480px) {

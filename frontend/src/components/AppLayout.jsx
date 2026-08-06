@@ -115,6 +115,24 @@ export function AppLayout({ children }) {
         </nav>
 
         <div className="portal-sidebar-note">
+          <span className="portal-sidebar-note-label">
+            <svg
+              className="portal-sidebar-sprite"
+              viewBox="0 0 16 16"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <rect x="2" y="2" width="4" height="3" fill="#ff5a7e" />
+              <rect x="10" y="2" width="4" height="3" fill="#ff5a7e" />
+              <rect x="1" y="5" width="14" height="3" fill="#ff5a7e" />
+              <rect x="2" y="8" width="12" height="2" fill="#ff5a7e" />
+              <rect x="3" y="10" width="10" height="2" fill="#ff5a7e" />
+              <rect x="4" y="12" width="8" height="2" fill="#ff5a7e" />
+              <rect x="5" y="14" width="6" height="2" fill="#ff5a7e" />
+              <rect x="2" y="3" width="2" height="2" fill="#ffb3c6" />
+            </svg>
+            Player tip
+          </span>
           <p>Build something real, one day at a time.</p>
         </div>
       </aside>

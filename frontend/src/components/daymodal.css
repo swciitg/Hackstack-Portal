@@ -1,4 +1,4 @@
-/* ── DayModal Stylesheet (Hackstack Brand v1.0) ────────────────────────── */
+/* ── DayModal — Arcade Night ─────────────────────────────────────────────── */
 
 .daymodal-overlay {
   position: fixed;
@@ -7,8 +7,8 @@
   display: flex;
   align-items: stretch;
   justify-content: flex-end;
-  background: rgba(14, 19, 64, 0.45);
-  backdrop-filter: blur(4px);
+  background: rgba(3, 6, 16, 0.72);
+  backdrop-filter: blur(5px);
 }
 
 .daymodal-drawer {
@@ -19,7 +19,7 @@
   width: 100%;
   max-width: 42rem;
   overflow: hidden;
-  border-left: 1px solid var(--line);
+  border-left: 2px solid rgba(0, 194, 255, 0.25);
   background: var(--surface-solid);
   box-shadow: var(--shadow-strong);
 }
@@ -30,12 +30,13 @@
 }
 
 .daymodal-header-day {
-  margin-bottom: 0.25rem;
-  font-size: 11px;
-  font-weight: 700;
+  margin-bottom: 0.35rem;
+  font-size: 9px;
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.24em;
-  color: rgba(255, 255, 255, 0.75);
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.78);
+  font-family: var(--font-pixel);
 }
 
 .daymodal-header-title {
@@ -44,6 +45,7 @@
   font-weight: 600;
   color: #fff;
   line-height: 1.3;
+  overflow-wrap: anywhere;
 }
 
 .daymodal-header-chips {
@@ -57,19 +59,21 @@
 .daymodal-close-btn {
   margin-top: 0.25rem;
   background: transparent;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.78);
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
+  width: 2.25rem;
+  height: 2.25rem;
   border-radius: var(--radius-sm);
+  border: 2px solid rgba(255, 255, 255, 0.22);
   transition: all 180ms ease;
 }
 
 .daymodal-close-btn:hover {
   color: #fff;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.14);
+  transform: translate(-1px, -1px);
 }
 
 /* Status Pills */
@@ -79,22 +83,24 @@
   gap: 0.35rem;
   border-radius: var(--radius-sm);
   border: 1px solid transparent;
-  padding: 0.25rem 0.65rem;
-  font-size: 11px;
-  font-weight: 700;
+  padding: 0.28rem 0.65rem;
+  font-size: 8px;
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
+  font-family: var(--font-pixel);
 }
 
 .daymodal-pill-muted {
-  background: rgba(0, 0, 0, 0.2);
-  color: rgba(255, 255, 255, 0.85);
+  background: rgba(6, 32, 51, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .daymodal-pill-success {
   background: var(--success-bg);
   border-color: var(--success-border);
-  color: #1a7a48;
+  color: var(--success-text);
 }
 
 .daymodal-pill-bright {
@@ -107,7 +113,7 @@
 .daymodal-tabs {
   display: flex;
   flex-shrink: 0;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 2px solid var(--line);
   background: var(--surface-subtle);
 }
 
@@ -122,13 +128,14 @@
   font-weight: 700;
   color: var(--muted);
   background: transparent;
-  border-bottom: 2px solid transparent;
+  border-bottom: 3px solid transparent;
   font-family: var(--font-display);
+  transition: all 180ms ease;
 }
 
 .daymodal-tab:hover {
   color: var(--text-strong);
-  background: rgba(27, 39, 180, 0.02);
+  background: rgba(0, 194, 255, 0.05);
 }
 
 .daymodal-tab.is-active {
@@ -154,8 +161,8 @@
   aspect-ratio: 16 / 9;
   overflow: hidden;
   border-radius: var(--radius-md);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow-soft);
+  border: 2px solid var(--line);
+  box-shadow: var(--shadow-chunky);
 }
 
 /* Take Quiz Prompt box */
@@ -167,9 +174,9 @@
   gap: 1.25rem;
   padding: 1.25rem;
   border-radius: var(--radius-md);
-  border: 1px solid var(--module-accent-border);
-  background: var(--module-accent-soft);
-  box-shadow: var(--shadow-soft);
+  border: 2px solid var(--module-accent-border);
+  background: color-mix(in srgb, var(--module-accent) 14%, var(--surface));
+  box-shadow: var(--shadow-chunky);
 }
 
 .daymodal-ready-text-group {
@@ -188,27 +195,37 @@
   margin-top: 0.35rem;
   font-size: 0.88rem;
   line-height: 1.5;
-  color: var(--text);
+  color: var(--muted);
 }
 
 .daymodal-ready-btn {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--module-accent-border);
   background: var(--surface-solid);
-  padding: 0.5rem 0.85rem;
-  font-size: 0.88rem;
-  font-weight: 700;
+  padding: 0.55rem 0.9rem;
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-family: var(--font-pixel);
   color: var(--text-strong);
-  box-shadow: var(--shadow-soft);
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.4);
+  transition: all 180ms ease;
 }
 
 .daymodal-ready-btn:hover {
   background: var(--surface-subtle);
-  border-color: var(--line-strong);
-  transform: translateY(-1px);
+  border-color: var(--module-accent);
+  color: var(--accent-strong);
+  transform: translate(-1px, -1px);
+}
+
+.daymodal-ready-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
 }
 
 /* Primary Button */
@@ -216,32 +233,43 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   padding: 0.75rem 1.25rem;
-  font-size: 0.88rem;
-  font-weight: 700;
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-family: var(--font-pixel);
   color: #fff;
-  border: 1px solid transparent;
-  box-shadow: 0 4px 12px rgba(48, 62, 210, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.42);
   width: fit-content;
+  transition: all 180ms ease;
 }
 
 .daymodal-primary-btn:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(48, 62, 210, 0.22);
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.42);
+  filter: brightness(1.06);
+}
+
+.daymodal-primary-btn:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.42);
 }
 
 .daymodal-primary-btn:disabled {
   opacity: 0.6;
+  box-shadow: none;
 }
 
 /* Quiz Card Container */
 .daymodal-quiz-card {
   border-radius: var(--radius-md);
-  border: 1px solid var(--line);
-  background: var(--surface-solid);
+  border: 2px solid var(--line);
+  background: var(--surface);
   padding: 1.5rem;
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow-chunky);
 }
 
 .daymodal-quiz-header {
@@ -284,13 +312,17 @@
   width: 4rem;
   height: 4rem;
   place-items: center;
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--line);
+  box-shadow: var(--shadow-chunky);
 }
 
 .daymodal-quiz-start-label {
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   color: var(--text-strong);
 }
 
@@ -299,6 +331,8 @@
   color: var(--muted);
   margin-top: 0.35rem;
   margin-bottom: 1.5rem;
+  font-family: var(--font-crt);
+  font-size: 1.15rem;
 }
 
 /* Active Quiz Layout */
@@ -313,18 +347,18 @@
 }
 
 .daymodal-progress-bar-track {
-  height: 6px;
+  height: 8px;
   width: 100%;
   overflow: hidden;
-  border-radius: 999px;
-  background: var(--surface-subtle);
+  border-radius: var(--radius-sm);
+  background: rgba(10, 15, 26, 0.6);
   border: 1px solid var(--line);
 }
 
 .daymodal-progress-bar-fill {
   height: 100%;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent-2) 100%);
+  border-radius: var(--radius-sm);
+  background: var(--pixel-fill-bg);
   transition: width 300ms ease;
 }
 
@@ -334,6 +368,7 @@
   color: var(--text-strong);
   margin-top: 1rem;
   margin-bottom: 1.25rem;
+  overflow-wrap: anywhere;
 }
 
 .daymodal-options-grid {
@@ -349,51 +384,59 @@
 }
 
 .daymodal-option-btn {
-  border-radius: var(--radius-md);
-  border: 1px solid var(--line);
-  background: var(--surface);
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--line);
+  background: var(--surface-subtle);
   padding: 0.85rem 1.1rem;
   text-align: left;
   font-size: 0.88rem;
   color: var(--text);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.01);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
   transition: all 180ms ease;
 }
 
 .daymodal-option-btn:hover {
   border-color: var(--color-primary);
-  background: rgba(48, 62, 210, 0.04);
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface-subtle));
   color: var(--text-strong);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(48, 62, 210, 0.06);
+  transform: translateY(-2px);
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.daymodal-option-btn:active {
+  transform: translateY(0);
+  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.35);
 }
 
 .daymodal-option-btn span {
-  color: var(--muted);
+  color: var(--color-primary);
   font-weight: 700;
   margin-right: 0.5rem;
 }
 
-/* Quiz Results layout */
+/* Quiz Results — cream "score screen" paper */
 .daymodal-results-header {
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 1.5rem;
-  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #c8d4e8;
+  padding: 1.75rem 1.5rem;
+  margin: -1.5rem -1.5rem 1.5rem;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: var(--color-surface);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 .daymodal-results-user {
   margin-bottom: 0.75rem;
   font-size: 12px;
-  color: var(--muted);
+  color: #6b7a99;
 }
 
 .daymodal-results-username {
-  font-weight: 650;
-  color: var(--text-strong);
+  font-weight: 700;
+  color: #1a2340;
 }
 
 .daymodal-results-trophy-wrap {
@@ -402,22 +445,25 @@
   width: 4rem;
   height: 4rem;
   place-items: center;
-  border-radius: 999px;
-  background: var(--accent-soft);
-  color: var(--color-primary);
+  border-radius: var(--radius-sm);
+  background: linear-gradient(180deg, #ffd166 0%, #f5a623 100%);
+  color: #3a2800;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.25);
 }
 
 .daymodal-results-score {
-  font-family: var(--font-display);
-  font-size: 2.25rem;
-  font-weight: 700;
-  color: var(--text-strong);
+  font-family: var(--font-crt);
+  font-size: 3.25rem;
+  font-weight: 400;
+  line-height: 1;
+  color: #1a2340;
   margin-bottom: 0.25rem;
 }
 
 .daymodal-results-status {
   font-size: 0.88rem;
-  color: var(--muted);
+  color: #6b7a99;
   margin-bottom: 1rem;
 }
 
@@ -426,12 +472,15 @@
   align-items: center;
   gap: 0.35rem;
   border-radius: var(--radius-sm);
-  background: var(--success-bg);
-  border: 1px solid var(--success-border);
-  padding: 0.35rem 0.75rem;
-  font-size: 0.88rem;
-  color: #1a7a48;
-  font-weight: 600;
+  background: rgba(46, 204, 113, 0.14);
+  border: 2px solid rgba(46, 204, 113, 0.5);
+  padding: 0.4rem 0.85rem;
+  font-size: 11px;
+  color: #1e8a4c;
+  font-weight: 700;
+  font-family: var(--font-pixel);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 /* Answer Review Card */
@@ -450,7 +499,7 @@
 
 .daymodal-review-card {
   border-radius: var(--radius-md);
-  border: 1px solid var(--line);
+  border: 2px solid var(--line);
   background: var(--surface-subtle);
   padding: 1.1rem;
 }
@@ -463,27 +512,28 @@
 
 .daymodal-review-badge {
   display: grid;
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.6rem;
+  height: 1.6rem;
   flex-shrink: 0;
   place-items: center;
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
 }
 
 .daymodal-review-badge.is-correct {
   background: var(--success-bg);
   border: 1px solid var(--success-border);
-  color: #1a7a48;
+  color: var(--success-text);
 }
 
 .daymodal-review-badge.is-incorrect {
   background: var(--danger-bg);
   border: 1px solid var(--danger-border);
-  color: #b42318;
+  color: var(--danger-text);
 }
 
 .daymodal-review-body {
   flex: 1;
+  min-width: 0;
 }
 
 .daymodal-review-question {
@@ -510,13 +560,13 @@
 .daymodal-review-answer-pill.correct {
   border-color: var(--success-border);
   background: var(--success-bg);
-  color: #1a7a48;
+  color: var(--success-text);
 }
 
 .daymodal-review-answer-pill.incorrect {
   border-color: var(--danger-border);
   background: var(--danger-bg);
-  color: #b42318;
+  color: var(--danger-text);
 }
 
 .daymodal-review-points {
@@ -526,12 +576,17 @@
   color: var(--muted);
 }
 
-/* ── Lesson Content Card ─────────────────────────────────────────────────── */
+/* ── Lesson Content Card — cream paper (markdown "light" tone) ──────────── */
+.daymodal-content-card,
+.daymodal-results-header {
+  color-scheme: light;
+}
+
 .daymodal-content-card {
   border-radius: var(--radius-md);
-  border: 1px solid var(--line);
-  background: var(--surface-solid);
-  box-shadow: var(--shadow-soft);
+  border: 2px solid #c8d4e8;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-chunky);
   overflow: hidden;
 }
 
@@ -540,14 +595,14 @@
   align-items: center;
   gap: 0.4rem;
   padding: 0.65rem 1.1rem;
-  border-bottom: 1px solid var(--line);
-  background: var(--surface-subtle);
-  font-size: 11px;
-  font-weight: 700;
+  border-bottom: 2px solid #c8d4e8;
+  background: #eef1f8;
+  font-size: 8px;
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.09em;
-  color: var(--muted);
-  font-family: var(--font-display);
+  letter-spacing: 0.14em;
+  color: #6b7a99;
+  font-family: var(--font-pixel);
 }
 
 .daymodal-content-card .md-root {

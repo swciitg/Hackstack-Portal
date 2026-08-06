@@ -63,6 +63,7 @@
   box-shadow: 6px 6px 0 #b0bdd4, 0 0 40px rgba(0, 194, 255, 0.08);
   animation: onb-fadeUp 0.5s ease both;
   animation-delay: 0.15s;
+  color-scheme: light;
 }
 
 .onboarding-card-title {
