@@ -6,6 +6,7 @@ Thanks for helping improve Hackstack Portal — the LMS built by the Student Web
 
 1. Fork the repository and clone your fork.
 2. Follow the setup steps in [README.md](README.md) for the backend (Express + MongoDB) and frontend (React + Vite).
+   - Sign-in uses **Google OAuth**, not GitHub: create a Google OAuth client and register the callback `http://localhost:5173/api/auth/google/callback`, then set `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET` (the README's "Set Up GitHub OAuth" step is outdated — tracked in #34).
    - Environment variables: treat `backend/.env.example` and `frontend/.env.example` as the source of truth — they are kept more current than the README.
 3. Create a branch off `main`:
 
