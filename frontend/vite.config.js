@@ -34,6 +34,8 @@ export default defineConfig({
       "/api": {
         target: "http://localhost:5000",
         changeOrigin: true,
+        // Backend mounts routes at /auth, /modules, … (no /api prefix).
+        rewrite: (path) => path.replace(/^\/api/, ""),
       },
     },
   },

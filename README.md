@@ -113,7 +113,7 @@ cd Hackstack-Portal
 3. Fill in the form:
    - **Application name:** Hackstack Portal
    - **Homepage URL:** `http://localhost:5173`
-   - **Authorization callback URL:** `http://localhost:5000/api/auth/github/callback`
+   - **Authorization callback URL:** `http://localhost:5173/api/auth/github/callback`
 4. Copy your **Client ID** and **Client Secret**
 
 ### Step 3: Set Up MongoDB
@@ -158,7 +158,7 @@ npm install
 # Create .env file
 cp .env.example .env
 
-# Verify VITE_API_URL=http://localhost:5000/api
+# Verify VITE_API_URL=/api  (Vite proxies /api → backend, stripping the prefix)
 
 # Start the development server
 npm run dev
@@ -223,7 +223,7 @@ PORT=5000
 
 **Frontend (.env):**
 ```
-VITE_API_URL=http://localhost:5000/api
+VITE_API_URL=/api
 ```
 
 ---
@@ -363,7 +363,7 @@ kill -9 <PID>
 ### GitHub OAuth not working
 
 - Verify Client ID and Client Secret in `.env`
-- Check OAuth redirect URL matches `http://localhost:5000/api/auth/github/callback`
+- Check OAuth redirect URL matches `http://localhost:5173/api/auth/github/callback`
 - Ensure FRONTEND_URL is correctly set
 
 ### CORS errors
