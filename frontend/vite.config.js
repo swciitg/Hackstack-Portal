@@ -34,6 +34,15 @@ export default defineConfig({
       "/api": {
         target: "http://localhost:5000",
         changeOrigin: true,
+        // Backend mounts routes at /auth, /modules, … (no /api prefix).
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+      // The app is served under /hackstack/, and some redirects/forms use
+      // /hackstack/api/... (e.g. the Google OAuth entrypoint). Proxy those too.
+      "^/hackstack/api": {
+        target: "http://localhost:5000",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/hackstack\/api/, ""),
       },
     },
   },
