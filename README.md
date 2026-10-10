@@ -20,7 +20,7 @@ A modern Learning Management System (LMS) built by the **Student Web Committee**
 - **Runtime:** Node.js
 - **Framework:** Express.js
 - **Database:** MongoDB (Cloud: MongoDB Atlas)
-- **Authentication:** GitHub OAuth 2.0 + JWT
+- **Authentication:** Google OAuth 2.0 + JWT
 - **Package Manager:** npm
 
 ### Frontend
@@ -97,7 +97,7 @@ Hackstack-Portal/
 - **Node.js** (v18 or higher)
 - **npm** (v8 or higher)
 - **MongoDB Account** (MongoDB Atlas recommended - free tier available)
-- **GitHub OAuth App** (for authentication)
+- **Google OAuth Client** (for authentication)
 
 ### Step 1: Clone the Repository
 
@@ -106,14 +106,14 @@ git clone <repository-url>
 cd Hackstack-Portal
 ```
 
-### Step 2: Set Up GitHub OAuth
+### Step 2: Set Up Google OAuth
 
-1. Go to [GitHub Settings → Developer settings → OAuth Apps](https://github.com/settings/developers)
-2. Click "New OAuth App"
-3. Fill in the form:
-   - **Application name:** Hackstack Portal
-   - **Homepage URL:** `http://localhost:5173`
-   - **Authorization callback URL:** `http://localhost:5173/api/auth/github/callback`
+1. Go to [Google Cloud Console → APIs & Services → Credentials](https://console.cloud.google.com/apis/credentials)
+2. Click **Create Credentials → OAuth client ID** (configure the consent screen first if prompted)
+3. Choose **Web application** and fill in:
+   - **Name:** Hackstack Portal
+   - **Authorized JavaScript origins:** `http://localhost:5173`
+   - **Authorized redirect URI:** `http://localhost:5173/api/auth/google/callback`
 4. Copy your **Client ID** and **Client Secret**
 
 ### Step 3: Set Up MongoDB
@@ -137,8 +137,8 @@ cp .env.example .env
 # Edit .env with your credentials:
 # - MONGO_URI: Your MongoDB connection string
 # - JWT_SECRET: Generate a random secret (e.g., openssl rand -hex 32)
-# - GITHUB_CLIENT_ID: Your GitHub OAuth Client ID
-# - GITHUB_CLIENT_SECRET: Your GitHub OAuth Client Secret
+# - GOOGLE_CLIENT_ID: Your Google OAuth Client ID
+# - GOOGLE_CLIENT_SECRET: Your Google OAuth Client Secret
 # - FRONTEND_URL: http://localhost:5173 (for development)
 
 # Start the server
@@ -215,8 +215,8 @@ npm run lint
 ```
 MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/hackstack
 JWT_SECRET=your_random_secret_here
-GITHUB_CLIENT_ID=your_client_id
-GITHUB_CLIENT_SECRET=your_client_secret
+GOOGLE_CLIENT_ID=your_client_id
+GOOGLE_CLIENT_SECRET=your_client_secret
 FRONTEND_URL=http://localhost:5173
 PORT=5000
 ```
@@ -235,8 +235,8 @@ VITE_API_URL=/api
 | Method | Endpoint | Description | Auth Required |
 |--------|----------|-------------|:-------------:|
 | POST | `/api/auth/admin/login` | Admin username/password login, returns JWT | ❌ |
-| GET | `/api/auth/github` | Redirect to GitHub OAuth | ❌ |
-| GET | `/api/auth/github/callback` | OAuth callback handler | ❌ |
+| GET | `/api/auth/google` | Redirect to Google OAuth | ❌ |
+| GET | `/api/auth/google/callback` | OAuth callback handler | ❌ |
 | GET | `/api/auth/me` | Get current user | ✅ |
 
 ### Module Endpoints
@@ -360,10 +360,10 @@ kill -9 <PID>
 - Ensure database user has correct credentials
 - Test connection: `mongo "your-connection-string"`
 
-### GitHub OAuth not working
+### Google OAuth not working
 
 - Verify Client ID and Client Secret in `.env`
-- Check OAuth redirect URL matches `http://localhost:5173/api/auth/github/callback`
+- Check OAuth redirect URL matches `http://localhost:5173/api/auth/google/callback`
 - Ensure FRONTEND_URL is correctly set
 
 ### CORS errors
