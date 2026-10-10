@@ -1,0 +1,145 @@
+import { useEffect, useState, useCallback } from "react";
+import { useParams, Link } from "react-router-dom";
+import { ShieldCheck, AlertTriangle, ArrowLeft, Printer, Loader2 } from "lucide-react";
+import { CertificateView } from "../components/certificate/CertificateView";
+import { certificateService } from "../services/certificateService";
+import "../components/certificate/certificate.css";
+
+export default function PublicCertificatePage() {
+  const { certCode } = useParams();
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [isNotFound, setIsNotFound] = useState(false);
+
+  useEffect(() => {
+    if (!certCode) return;
+    let isMounted = true;
+    setLoading(true);
+    setError("");
+    setIsNotFound(false);
+
+    certificateService
+      .verifyCertificate(certCode)
+      .then((res) => {
+        if (!isMounted) return;
+        if (res?.certificate) {
+          setData(res.certificate);
+        } else {
+          setIsNotFound(true);
+          setError("Certificate could not be verified.");
+        }
+      })
+      .catch((err) => {
+        if (!isMounted) return;
+        const notFound = err.status === 404 || err.status === 400;
+        setIsNotFound(notFound);
+        setError(
+          notFound
+            ? "This certificate ID is not recognized in the Hackstack registry."
+            : err.message || "Failed to reach Hackstack certificate registry. Please try again later."
+        );
+      })
+      .finally(() => {
+        if (isMounted) setLoading(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [certCode]);
+
+  useEffect(() => {
+    document.body.classList.add("has-certificate");
+    return () => {
+      document.body.classList.remove("has-certificate");
+    };
+  }, []);
+
+  const handlePrint = useCallback(() => {
+    window.print();
+  }, []);
+
+  return (
+    <div className="hs-cert-public-page">
+      <div className="hs-cert-public-banner no-print">
+        <div className="hs-cert-public-badge">
+          {loading ? (
+            <>
+              <Loader2 size={24} className="animate-spin text-sky-400" />
+              <div>
+                <h4>Verifying Credential…</h4>
+                <p>Checking Hackstack certificate registry...</p>
+              </div>
+            </>
+          ) : error || !data ? (
+            <>
+              <AlertTriangle size={24} className={isNotFound ? "text-amber-500" : "text-rose-500"} />
+              <div>
+                <h4>{isNotFound ? "Unverified Credential" : "Verification Service Unavailable"}</h4>
+                <p>
+                  {isNotFound
+                    ? "This certificate ID is not recognized in the Hackstack registry."
+                    : "Unable to verify credential due to a network or server issue."}
+                </p>
+              </div>
+            </>
+          ) : (
+            <>
+              <ShieldCheck size={26} className="hs-cert-public-badge-icon" />
+              <div>
+                <h4>Authentic SWC Credential</h4>
+                <p>Official Certificate issued by Students' Web Committee, IIT Guwahati</p>
+              </div>
+            </>
+          )}
+        </div>
+
+        <div className="flex items-center gap-3">
+          {!loading && data ? (
+            <button
+              type="button"
+              onClick={handlePrint}
+              className="hs-cert-btn-print"
+              title="Print or Save PDF"
+            >
+              <Printer size={16} />
+              <span>Print / Save PDF</span>
+            </button>
+          ) : null}
+
+          <Link to="/" className="hs-cert-btn-share flex items-center gap-1">
+            <ArrowLeft size={14} />
+            <span>Hackstack Home</span>
+          </Link>
+        </div>
+      </div>
+
+      {loading ? (
+        <div className="p-16 text-center text-slate-400 flex flex-col items-center gap-3">
+          <div className="w-8 h-8 border-2 border-sky-400 border-t-transparent rounded-full animate-spin" />
+          <span>Verifying certificate credentials...</span>
+        </div>
+      ) : error ? (
+        <div className="p-12 text-center text-rose-400 bg-slate-900 border border-slate-800 rounded-xl max-w-md flex flex-col items-center gap-3">
+          <AlertTriangle size={36} className={isNotFound ? "text-amber-400" : "text-rose-400"} />
+          <h3 className="text-lg font-bold text-white">
+            {isNotFound ? "Certificate Not Found" : "Verification Error"}
+          </h3>
+          <p className="text-sm text-slate-400">{error}</p>
+          <Link
+            to="/"
+            className="mt-3 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-sm"
+          >
+            Go to Hackstack Portal
+          </Link>
+        </div>
+      ) : data ? (
+        <CertificateView
+          certificate={data}
+          verificationUrl={window.location.href}
+        />
+      ) : null}
+    </div>
+  );
+}
