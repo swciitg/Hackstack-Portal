@@ -6,11 +6,18 @@ import {
   CheckCircle2,
   ChevronRight,
   Play,
+  RotateCcw,
   Trophy,
   X,
   Zap,
 } from "lucide-react";
 import { Markdown } from "./Markdown";
+import {
+  clearQuizDraft,
+  getQuizDraftKey,
+  loadQuizDraft,
+  saveQuizDraft,
+} from "../utils/quizDraft";
 import "./daymodal.css";
 
 function toEmbedUrl(url) {
@@ -53,6 +60,7 @@ function ProgressBar({ value }) {
 
 function DailyQuiz({
   questions,
+  draftKey,
   onSubmit,
   previousScore,
   dailyQuizAttempt,
@@ -60,10 +68,13 @@ function DailyQuiz({
   userName,
   moduleTheme,
 }) {
-  const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState([]);
-  const [done, setDone] = useState(false);
   const quizAlreadyTaken = Boolean(dailyQuizAttempt);
+  const [restoredDraft] = useState(() =>
+    quizAlreadyTaken ? null : loadQuizDraft(draftKey, questions),
+  );
+  const [step, setStep] = useState(restoredDraft?.step ?? 0);
+  const [answers, setAnswers] = useState(restoredDraft?.answers ?? []);
+  const [done, setDone] = useState(false);
   const totalMarks = useMemo(
     () => questions.reduce((sum, question) => sum + question.points, 0),
     [questions],
@@ -71,13 +82,16 @@ function DailyQuiz({
   const [viewMode, setViewMode] = useState(
     quizAlreadyTaken ? "results" : "start",
   );
+  const canResume = answers.length > 0;
 
-  // Sync viewMode if dailyQuizAttempt is loaded after initial mount
+  // Sync viewMode if dailyQuizAttempt is loaded after initial mount, and drop
+  // any leftover draft so it can never be replayed against a taken quiz.
   useEffect(() => {
     if (quizAlreadyTaken) {
       setViewMode("results");
+      clearQuizDraft(draftKey);
     }
-  }, [quizAlreadyTaken]);
+  }, [quizAlreadyTaken, draftKey]);
 
   const scoreFromAnswers = answers.reduce((sum, answer, index) => {
     const question = questions[index];
@@ -98,18 +112,34 @@ function DailyQuiz({
     setAnswers(nextAnswers);
 
     if (step + 1 < questions.length) {
+      saveQuizDraft(draftKey, questions, {
+        step: step + 1,
+        answers: nextAnswers,
+      });
       setStep((currentStep) => currentStep + 1);
       return;
     }
+
+    // Keep the full draft until the server confirms the submit, so a failed
+    // request can be retried after closing the modal or reloading.
+    saveQuizDraft(draftKey, questions, { step, answers: nextAnswers });
 
     const finalScore = nextAnswers.reduce((sum, answer, index) => {
       const question = questions[index];
       return answer === question.correctIndex ? sum + question.points : sum;
     }, 0);
 
-    await onSubmit(finalScore, nextAnswers, totalMarks);
+    const submitted = await onSubmit(finalScore, nextAnswers, totalMarks);
+    if (submitted) clearQuizDraft(draftKey);
     setDone(true);
     setViewMode("results");
+  };
+
+  const handleStartOver = () => {
+    clearQuizDraft(draftKey);
+    setAnswers([]);
+    setStep(0);
+    setViewMode("quiz");
   };
 
   if (viewMode === "start") {
@@ -129,6 +159,9 @@ function DailyQuiz({
           {questions.length} question{questions.length !== 1 ? "s" : ""}
         </div>
         <div className="daymodal-quiz-start-sub">
+          {canResume
+            ? `${answers.length} of ${questions.length} answered · `
+            : ""}
           {totalMarks} pts total
         </div>
         <button
@@ -139,8 +172,23 @@ function DailyQuiz({
           style={{ background: moduleTheme.button }}
         >
           <Zap className="size-4" />
-          {quizAlreadyTaken ? "Quiz Completed" : "Start Quiz"}
+          {quizAlreadyTaken
+            ? "Quiz Completed"
+            : canResume
+              ? "Resume Quiz"
+              : "Start Quiz"}
         </button>
+        {canResume && !quizAlreadyTaken ? (
+          <button
+            type="button"
+            disabled={submitting}
+            onClick={handleStartOver}
+            className="daymodal-ready-btn mt-3"
+          >
+            <RotateCcw className="size-4" />
+            Start over
+          </button>
+        ) : null}
       </motion.div>
     );
   }
@@ -304,10 +352,16 @@ function DayModal({
   const quizDone = locallyCompleted || isCompleted || Boolean(dailyQuizAttempt);
 
   const handleQuizSubmit = async (score, userAnswers, totalMarks) => {
-    if (dailyQuizAttempt || submitting) return;
+    if (dailyQuizAttempt || submitting) return false;
 
-    await onComplete(chapter.id, score, userAnswers, totalMarks);
+    const submitted = await onComplete(
+      chapter.id,
+      score,
+      userAnswers,
+      totalMarks,
+    );
     setLocallyCompleted(true);
+    return submitted;
   };
 
   return (
@@ -497,6 +551,7 @@ function DayModal({
                     <DailyQuiz
                       key={dailyQuizAttempt ? "completed" : "pending"}
                       questions={chapter.quiz}
+                      draftKey={getQuizDraftKey(chapter.id)}
                       onSubmit={handleQuizSubmit}
                       previousScore={dailyScore}
                       dailyQuizAttempt={dailyQuizAttempt}
