@@ -11,6 +11,8 @@ router.get('/me', auth, progressCtrl.getMyProgress);
 // GET /progress -> List all progress records (consider adding auth).
 router.get('/', progressCtrl.listProgress);
 
+router.get('/:id/certificate', auth, progressCtrl.getCertificateEligibility);
+
 // GET /progress/:id -> Get one progress record by id (consider adding auth).
 router.get('/:id', progressCtrl.getProgress);
 
