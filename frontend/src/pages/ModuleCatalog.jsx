@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useModules } from "../context/ModulesContext";
+import { Input } from "../components/ui/input";
 import "./modules.css";
 
 function ModuleCatalog() {
@@ -23,6 +24,36 @@ function ModuleCatalog() {
 
   const [actionError, setActionError] = useState("");
   const [pendingId, setPendingId] = useState("");
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedDifficulty, setSelectedDifficulty] = useState("All");
+
+  const difficulties = useMemo(() => {
+    return [...new Set(
+      modules
+        .map((module) => (module.difficulty || "").trim())
+        .filter(Boolean)
+    )].sort();
+  }, [modules]);
+
+  const filteredModules = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+
+    return modules.filter((module) => {
+      const title = (module.title || "").toLowerCase();
+      const description = (module.description || "").toLowerCase();
+
+      const matchesSearch =
+        title.includes(query) || description.includes(query);
+
+      const matchesDifficulty =
+        selectedDifficulty === "All" ||
+        (module.difficulty || "").trim() === selectedDifficulty;
+
+      return matchesSearch && matchesDifficulty;
+    });
+  }, [modules, searchQuery, selectedDifficulty]);
+
 
   const learningSummary = useMemo(() => {
     const totalDays = modules.reduce((sum, module) => sum + module.dayCount, 0);
@@ -103,14 +134,73 @@ function ModuleCatalog() {
         <div className="modules-alert modules-alert-danger">{actionError}</div>
       ) : null}
 
+      <section className="modules-panel catalog-filters">
+        <label htmlFor="module-search">
+          Search Modules
+        </label>
+
+        <Input
+          id="module-search"
+          type="search"
+          placeholder="Search modules by name or description..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+
+        <div
+          className="catalog-filter-row"
+          role="group"
+          aria-label="Filter by difficulty"
+        >
+          <span>Difficulty:</span>
+
+          {["All", ...difficulties].map((difficulty) => (
+            <button
+              key={difficulty}
+              type="button"
+              className={`catalog-filter-chip ${selectedDifficulty === difficulty ? "active" : ""
+                }`}
+              aria-pressed={selectedDifficulty === difficulty}
+              onClick={() => setSelectedDifficulty(difficulty)}
+            >
+              {difficulty === "All" ? "All levels" : difficulty}
+            </button>
+          ))}
+        </div>
+
+        <p className="catalog-result-count" aria-live="polite">
+          Showing {filteredModules.length} of {modules.length} modules
+        </p>
+      </section>
+
       {modules.length === 0 ? (
         <div className="modules-panel modules-empty-state">
           No modules have been published yet.
         </div>
       ) : (
         <>
+          {filteredModules.length === 0 && (
+            <div className="modules-panel modules-empty-state">
+              <div>
+                <h3>No modules match your search</h3>
+                <p>Try another keyword or difficulty level.</p>
+
+                <button
+                  type="button"
+                  className="catalog-clear-btn"
+                  onClick={() => {
+                    setSearchQuery("");
+                    setSelectedDifficulty("All");
+                  }}
+                >
+                  Clear filters
+                </button>
+              </div>
+            </div>
+          )}
+
           <div className="modules-grid">
-            {modules.map((module) => {
+            {filteredModules.map((module) => {
               const isRegistered = registeredModuleIds.includes(module.id);
               const progress = getProgressForModule(module.id);
               const quizzes = getQuizzesForModule(module.id);
