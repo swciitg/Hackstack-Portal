@@ -226,8 +226,9 @@ function ModuleDetail() {
     );
   }
 
+  // Resolves to true only when the server accepted the action.
   const handleDayAction = async (dayId, _score, userAnswers) => {
-    if (!isRegistered) return;
+    if (!isRegistered) return false;
 
     const quiz = resolvedQuizByDayId.get(dayId);
     setActionError("");
@@ -239,8 +240,10 @@ function ModuleDetail() {
       } else {
         await completeDay(module.id, dayId);
       }
+      return true;
     } catch (err) {
       setActionError(err.message || "Failed to update this day.");
+      return false;
     } finally {
       setPendingDayId("");
     }
