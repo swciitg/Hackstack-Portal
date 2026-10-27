@@ -16,7 +16,8 @@ const progressSchema = new mongoose.Schema(
 		],
 		currentChapterId: { type: mongoose.Schema.Types.ObjectId },
 		currentDayId: { type: mongoose.Schema.Types.ObjectId },
-		moduleCompleted: { type: Boolean, default: false }
+		moduleCompleted: { type: Boolean, default: false },
+		completedAt: { type: Date, default: null }
 	},
 	{ timestamps: true }
 );

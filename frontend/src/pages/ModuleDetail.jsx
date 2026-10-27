@@ -1,3 +1,4 @@
+import { ModuleCertificate } from "../components/ModuleCertificate";
 import { useMemo, useState, useCallback } from "react";
 import {
   ArrowLeft,
@@ -41,6 +42,7 @@ function ModuleDetail() {
   const [openDayId, setOpenDayId] = useState(null);
   const [actionError, setActionError] = useState("");
   const [pendingDayId, setPendingDayId] = useState("");
+  const [showCertificate, setShowCertificate] = useState(false);
 
   const isRegistered = module ? registeredModuleIds.includes(module.id) : false;
   const moduleDays = module?.days || [];
@@ -63,7 +65,8 @@ function ModuleDetail() {
   );
 
   const attemptedQuizIds = useMemo(
-    () => new Set((progress?.attemptedQuizIds || []).map((id) => id.toString())),
+    () =>
+      new Set((progress?.attemptedQuizIds || []).map((id) => id.toString())),
     [progress?.attemptedQuizIds],
   );
 
@@ -155,6 +158,10 @@ function ModuleDetail() {
         : 0,
     [completedSet.size, module?.dayCount],
   );
+  const isModuleComplete =
+    module?.dayCount > 0 &&
+    progress?.moduleCompleted === true &&
+    completedSet.size >= module.dayCount;
 
   const finalTaskContent = useMemo(
     () =>
@@ -201,6 +208,10 @@ function ModuleDetail() {
   }, [openDayQuiz, attemptedQuizIds, attemptsByQuizDayId]);
 
   const openDayScore = openDayAttempt?.score;
+
+  if (showCertificate && isModuleComplete && module && progress?._id) {
+    return <ModuleCertificate module={module} progressId={progress._id} />;
+  }
 
   if (loading) {
     return (
@@ -289,6 +300,7 @@ function ModuleDetail() {
           <div className="module-detail-progress-line">
             <div style={{ width: `${completionPercent}%` }} />
           </div>
+
           <div className="module-detail-hero-actions">
             <Link to="/dashboard" className="module-secondary-action">
               View full results
@@ -297,6 +309,16 @@ function ModuleDetail() {
               Final task
             </a>
           </div>
+
+          {isModuleComplete && (
+            <button
+              type="button"
+              className="module-primary-action"
+              onClick={() => setShowCertificate(true)}
+            >
+              View Certificate
+            </button>
+          )}
         </div>
       </header>
 
