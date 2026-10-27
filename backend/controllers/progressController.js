@@ -18,7 +18,8 @@ exports.getMyProgress = async (req, res) => {
 exports.listProgress = async (req, res) => {
   try {
     const progress = await Progress.find()
-      .populate('userId', 'username email')
+      // Removed 'email' to prevent leaking sensitive user data
+      .populate('userId', 'username avatarUrl college')
       .populate('moduleId', 'title slug')
       .sort({ createdAt: -1 });
 
@@ -35,7 +36,8 @@ exports.getProgress = async (req, res) => {
 
   try {
     const progress = await Progress.findById(req.params.id)
-      .populate('userId', 'username email')
+      // Removed 'email' to prevent leaking sensitive user data
+      .populate('userId', 'username avatarUrl college')
       .populate('moduleId', 'title slug');
 
     if (!progress) return res.status(404).json({ message: 'Progress record not found.' });
@@ -60,8 +62,20 @@ exports.updateProgress = async (req, res) => {
       return res.status(403).json({ message: 'Access denied. You can only update your own progress.' });
     }
 
-    // Update progress record
-    const updatedProgress = await Progress.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    // WHITELIST: Extract only safe fields that the client is allowed to update manually
+    const { currentChapterId, currentDayId } = req.body;
+    
+    const safeUpdateData = {};
+    if (currentChapterId !== undefined) safeUpdateData.currentChapterId = currentChapterId;
+    if (currentDayId !== undefined) safeUpdateData.currentDayId = currentDayId;
+
+    // Update progress record using the safe whitelist object
+    const updatedProgress = await Progress.findByIdAndUpdate(
+      req.params.id, 
+      { $set: safeUpdateData }, 
+      { new: true, runValidators: true }
+    );
+    
     res.json(updatedProgress);
   } catch (error) {
     res.status(400).json({ message: 'Failed to update progress record.', error: error.message });

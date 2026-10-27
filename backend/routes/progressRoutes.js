@@ -8,11 +8,11 @@ const router = express.Router();
 // GET /progress/me -> Current user's progress records.
 router.get('/me', auth, progressCtrl.getMyProgress);
 
-// GET /progress -> List all progress records (consider adding auth).
-router.get('/', progressCtrl.listProgress);
+// GET /progress -> List all progress records (auth required).
+router.get('/', auth, progressCtrl.listProgress);
 
-// GET /progress/:id -> Get one progress record by id (consider adding auth).
-router.get('/:id', progressCtrl.getProgress);
+// GET /progress/:id -> Get one progress record by id (auth required).
+router.get('/:id', auth, progressCtrl.getProgress);
 
 // PATCH /progress/:id -> Update a progress record (auth required).
 router.patch('/:id', auth, progressCtrl.updateProgress);
