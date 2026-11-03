@@ -1,3 +1,16 @@
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../src/components/ui/alert-dialog";
+
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
+
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -34,6 +47,7 @@ export default function DeleteModule() {
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -67,36 +81,34 @@ export default function DeleteModule() {
   );
 
   const handleDelete = async () => {
-    if (!selectedModule) {
-      setError("Select a module before deleting it.");
-      return;
-    }
+  if (!selectedModule) {
+    toast.error("Please select a module before deleting.");
+    return;
+  }
 
-    const confirmed = window.confirm(
-      `Delete "${selectedModule.title}"? This cannot be undone.`,
+  setDeleting(true);
+  setError("");
+
+  try {
+    const deletedTitle = selectedModule.title;
+
+    await deleteAdminModule(selectedModule._id);
+
+    const remainingModules = modules.filter(
+      (moduleDoc) => moduleDoc._id !== selectedModule._id,
     );
 
-    if (!confirmed) return;
+    setModules(remainingModules);
+    setSelectedModuleId(remainingModules[0]?._id || "");
 
-    setDeleting(true);
-    setError("");
-    setSuccess("");
-
-    try {
-      await deleteAdminModule(selectedModule._id);
-      const remainingModules = modules.filter(
-        (moduleDoc) => moduleDoc._id !== selectedModule._id,
-      );
-
-      setModules(remainingModules);
-      setSelectedModuleId(remainingModules[0]?._id || "");
-      setSuccess(`Deleted "${selectedModule.title}".`);
-    } catch (err) {
-      setError(err.message || "Failed to delete module.");
-    } finally {
-      setDeleting(false);
-    }
-  };
+    setIsDeleteDialogOpen(false);
+    toast.success(`"${deletedTitle}" deleted successfully.`);
+  } catch (err) {
+    toast.error(err.message || "Failed to delete module.");
+  } finally {
+    setDeleting(false);
+  }
+};
 
   const summary = selectedModule ? getModuleSummary(selectedModule) : null;
 
@@ -175,14 +187,14 @@ export default function DeleteModule() {
               </label>
 
               <div className="flex flex-wrap gap-3 pt-2">
-                <button
-                  type="button"
-                  onClick={handleDelete}
-                  disabled={loading || deleting || !selectedModule}
-                  className="rounded-xl bg-red-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-60"
-                >
-                  {deleting ? "Deleting..." : "Delete Module"}
-                </button>
+              <button
+                type="button"
+                onClick={() => setIsDeleteDialogOpen(true)}
+                disabled={loading || deleting || !selectedModule}
+                className="rounded-xl bg-red-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                Delete Module
+              </button>
 
                 <button
                   type="button"
@@ -239,6 +251,47 @@ export default function DeleteModule() {
             </div>
           </div>
         </motion.div>
+                <AlertDialog
+          open={isDeleteDialogOpen}
+          onOpenChange={setIsDeleteDialogOpen}
+        >
+          <AlertDialogContent  className="max-w-lg rounded-2xl border border-gray-700 bg-gray-900 text-white shadow-2xl">
+            <AlertDialogHeader>
+              <AlertDialogTitle className="text-lg font-bold text-white">
+                Delete {selectedModule?.title}?
+              </AlertDialogTitle>
+
+              <AlertDialogDescription className="text-sm leading-relaxed text-gray-300">
+                This action cannot be undone. Deleting this module will
+                permanently remove it along with all associated progress
+                and quizzes.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+
+            <AlertDialogFooter>
+              <AlertDialogCancel disabled={deleting}
+  className="border-gray-700 bg-gray-950 text-gray-200 hover:bg-gray-800 hover:text-white">
+                Cancel
+              </AlertDialogCancel>
+
+ <button
+    type="button"
+    onClick={handleDelete}
+    disabled={deleting}
+    className="inline-flex items-center justify-center rounded-lg bg-red-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-60"
+  >
+    {deleting ? (
+      <>
+        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+        Deleting...
+      </>
+    ) : (
+      "Delete Module"
+    )}
+  </button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   );
