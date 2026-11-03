@@ -262,9 +262,7 @@ export default function DeleteModule() {
               </AlertDialogTitle>
 
               <AlertDialogDescription className="text-sm leading-relaxed text-gray-300">
-                This action cannot be undone. Deleting this module will
-                permanently remove it along with all associated progress
-                and quizzes.
+                This action cannot be undone. Deleting this module will permanently remove it, along with all associated progress, registrations, quizzes, and leaderboard entries. Users' total scores will also be reduced by the quiz points earned in this module.
               </AlertDialogDescription>
             </AlertDialogHeader>
 
