@@ -16,7 +16,15 @@ createRoot(document.getElementById("root")).render(
       <ModulesProvider>
         <StoreProvider>
           <App />
-          <Toaster/>
+          <Toaster
+            position="bottom-right"
+            theme="dark"
+            toastOptions={{
+              classNames: {
+                success: "!bg-white !text-black !border-gray-200",
+              },
+            }}
+          />{" "}
         </StoreProvider>
       </ModulesProvider>
     </AuthProvider>
